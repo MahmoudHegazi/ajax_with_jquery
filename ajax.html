@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<form action="/process">
+  <label for="name">First name:</label><br>
+  <input type="text" id="emailInput" name="name" value=""><br>
+  <label for="email">Last name:</label><br>
+  <input type="text" id="nameInput" name="email" value=""><br><br>
+  <input type="submit" value="Submit">
+</form> 
+
+<p id="myerror"></p>
+<p id="mysucess"></p>
+
+<script>
+
+$(document).ready(function() {
+   $('form').on('submit'), function(event) {
+   
+       $.ajax({
+	       data : {
+		     name :  $('#nameInput').val(),
+			 email : $('#emailInput').val()
+		   },
+		   type : 'POST',
+		   url : '/process'
+	   })
+	   
+	   .done(function(data)) {
+	       if (data.error) {		       
+			   $('#myerror').text(data.error).show();
+			   $('#mysucess').hide();
+			   
+		   } else {
+		       $('#mysucess').text(data.name).show();
+			   $('#myerror').hide();
+		   }
+	   
+	   });
+       event.preventDefault();
+   });
+ 
+});
+</script>
+<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+
+</body>
+</html>
